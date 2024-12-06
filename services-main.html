@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexagonal Grid</title>
+    <style>
+        /* Global styles */
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hind+Siliguri:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Hind Siliguri", sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            padding: 80px 100px;
+            margin: 0 auto;
+            background: #EEEEEF;
+        }
+
+        .hex-grid {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .box {
+            margin-top: -102px;
+        }
+
+        .hex {
+            position: relative;
+            width: calc(25% - 10px);
+            padding-bottom: 26%;
+            /* Aspect ratio for hexagonal shape */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        /* 
+        .hex:hover {
+            transform: scale(1.05);
+        } */
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            opacity: 1;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .overlay:hover {
+            transform: scale(1.2);
+        }
+
+        .overlay img {
+            width: 24%;
+            height: auto;
+        }
+
+        .overlay p {
+            font-size: 16px;
+            line-height: 20px;
+            text-transform: uppercase;
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1800px) {
+            .box {
+                margin-top: -95px;
+            }
+        }
+
+        @media (max-width: 1680px) {
+            .box {
+                margin-top: -88px;
+            }
+        }
+
+        @media (max-width: 1600px) {
+            .box {
+                margin-top: -82px;
+            }
+        }
+
+        @media (max-width: 1440px) {
+            .box {
+                margin-top: -72px;
+            }
+        }
+
+        @media (max-width: 1280px) {
+            .box {
+                margin-top: -62px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .box {
+                margin-top: -56px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .box {
+                margin-top: -50px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                padding: 50px;
+            }
+
+            .box {
+                margin-top: -52px;
+            }
+        }
+
+        @media (max-width: 990px) {
+            .box {
+                margin-top: -48px;
+            }
+        }
+
+        @media (max-width: 890px) {
+            .box {
+                margin-top: -42px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .box {
+                margin-top: -35px;
+            }
+
+            .overlay p {
+                font-size: 14px;
+                line-height: 18px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .main-container {
+                padding: 40px 25px;
+            }
+
+            .box {
+                margin-top: -38px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .box {
+                margin-top: -30px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .box {
+                margin-top: -25px;
+            }
+
+            .overlay img {
+                width: 35%;
+            }
+
+            .overlay p {
+                font-size: 12px;
+                line-height: 16px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .box {
+                margin-top: -20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hex-grid {
+                flex-wrap: wrap;
+            }
+
+            .hex {
+                width: calc(50% - 10px);
+                padding-bottom: 50%;
+            }
+
+            .hex-grid .hex-box {
+                width: calc(50% - 10px);
+                margin: 0 25%;
+                margin-bottom: -54px;
+            }
+
+            .hex:last-child {
+                margin-top: -54px;
+            }
+
+            .box {
+                margin-top: -44px;
+            }
+
+            .overlay p {
+                font-size: 14px;
+                line-height: 18px;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .hex-grid .hex-box {
+                margin-bottom: -48px;
+            }
+
+            .hex:last-child {
+                margin-top: -48px;
+            }
+
+            .box {
+                margin-top: -38px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .hex-grid .hex-box {
+                margin-bottom: -44px;
+            }
+
+            .hex:last-child {
+                margin-top: -44px;
+            }
+
+            .box {
+                margin-top: -34px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .hex-grid .hex-box {
+                margin-bottom: -35px;
+            }
+
+            .hex:last-child {
+                margin-top: -35px;
+            }
+
+            .box {
+                margin-top: -25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hexagonal grid container -->
+    <div class="main-container">
+        <div class="hex-grid">
+            <div class="hex hex-box" style="background-image: url('imgs/Decks-Pergolas.jpeg');">
+                <div class="overlay">
+                    <img src="imgs/Decks-Pergolas-icon.png" alt="Decks & Pergolas">
+                    <p>Decks & Pergolas</p>
+                </div>
+            </div>
+            <div class="hex" style="background-image: url('imgs/Fix-Out.jpeg');">
+                <div class="overlay">
+                    <img src="imgs/Fix-Out-icon.png" alt="Fix Out">
+                    <p>Fix Out</p>
+                </div>
+            </div>
+            <div class="hex" style="background-image: url('imgs/Bathroom-Renovations.png');">
+                <div class="overlay">
+                    <img src="imgs/Bathroom-Renovations-icon.png" alt="Bathroom Renovations">
+                    <p>Bathroom Renovations</p>
+                </div>
+            </div>
+            <div class="hex" style="background-image: url('imgs/Kitchen-Renovations.png');">
+                <div class="overlay">
+                    <img src="imgs/Kitchen-Renovations-icon.png" alt="Kitchen Renovations">
+                    <p>Kitchen Renovations</p>
+                </div>
+            </div>
+        </div>
+        <div class="hex-grid box">
+            <div class="hex" style="background-image: url('imgs/General-Construction.png');">
+                <div class="overlay">
+                    <img src="imgs/General-Construction-icon.png" alt="General Construction">
+                    <p>General Construction</p>
+                </div>
+            </div>
+            <div class="hex" style="background-image: url('imgs/Residential-Commercial.png');">
+                <div class="overlay">
+                    <img src="imgs/Residential-Commercial-icon.png" alt="Residential & Commercial">
+                    <p>Residential & Commercial</p>
+                </div>
+            </div>
+            <div class="hex" style="background-image: url('imgs/Flooring.jpeg');">
+                <div class="overlay">
+                    <img src="imgs/Flooring-icon.png" alt="Flooring">
+                    <p>Flooring</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
